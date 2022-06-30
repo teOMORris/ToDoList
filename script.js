@@ -1,5 +1,6 @@
 const addListButton = document.getElementById("addList");
 var canAddList = true;
+var index = 0;
 
 //Here is a function which invoke herself
 (function() {
@@ -65,6 +66,8 @@ addListButton.addEventListener("click", function() {
           const taskCard = document.createElement('task-card');
           document.getElementById("listOfTasks").appendChild(taskCard);
           const titleTask = document.getElementById("titleTask");
+          titleTask.setAttribute("id",index);
+          index++;
           titleTask.value = title.value;
           DeleteCard(element);
         })
