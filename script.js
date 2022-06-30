@@ -1,5 +1,4 @@
 const addListButton = document.getElementById("addList");
-const addListCard = document.getElementById("addListCard");
 var canAddList = true;
 
 //Here is a function which invoke herself
@@ -18,19 +17,27 @@ var canAddList = true;
         //shadowRoot is used to that code to be visible just in 
         //this.shadowRoot.innerHTML = `...`
         this.innerHTML = `
-            <input type="text" placeholder="Enter title" id="titleText">
+            <input type="text" placeholder="Enter title" id="titleTextAdd">
             <button id="addButton">ADD</button>
             <button id="removeButton">X</button>
         `;
       }
     }
+
+    class TaskCard extends HTMLElement {
+        connectedCallback() {
+          this.innerHTML = ` <input id="titleTask" type="text" placeholder="Title" value=" ">
+          <button id="addButton">+ Add task</button>`;
+        }
+    } 
    window.customElements.define('add-listcard', AddListCard);
+   window.customElements.define('task-card',TaskCard);
   })();
 
 //Delete card of "Add list"
 function DeleteCard( element)
 {
-    const parent = document.getElementById("list");
+    const parent = document.getElementById("addListCard");
     parent.removeChild(element);
     canAddList = true;
 }
@@ -43,7 +50,7 @@ addListButton.addEventListener("click", function() {
       const element = document.createElement('add-listcard');
       element.setAttribute("id", "addCard");
       //Add element such as child in parent(list)
-      document.getElementById("list").appendChild(element);
+      document.getElementById("addListCard").appendChild(element);
 
       const addButton = document.getElementById("addButton");
       const removeButton = document.getElementById("removeButton");
@@ -54,7 +61,11 @@ addListButton.addEventListener("click", function() {
       {
         addButton.addEventListener("click", function()
         {
-          const title = document.getElementById("titleText");
+          const title = document.getElementById("titleTextAdd");
+          const taskCard = document.createElement('task-card');
+          document.getElementById("listOfTasks").appendChild(taskCard);
+          const titleTask = document.getElementById("titleTask");
+          titleTask.value = title.value;
           DeleteCard(element);
         })
       }

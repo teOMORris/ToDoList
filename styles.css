@@ -1,7 +1,3 @@
-#addListCard {
-    display: none;
-}
-
 #removeButton {
     background-color: rgba(169, 209, 198, 0.997);
     border: 0ch;
@@ -14,12 +10,6 @@ add-listcard {
     background-color: rgb(161, 209, 193);
     margin: 5px;
     border-radius: 20px;
-}
-
-add-listcard > #titleText{
-    display: block;
-    border: 0ch;
-    background-color: transparent;
 }
 
 add-listcard > #addButton{
