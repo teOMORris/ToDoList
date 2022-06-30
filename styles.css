@@ -1,0 +1,27 @@
+#addListCard {
+    display: none;
+}
+
+.removeButton {
+    background-color: rgba(169, 209, 198, 0.997);
+    border: 0ch;
+    border-radius: 3px;
+}
+
+add-listcard {
+    display: inline-block;
+    padding: 15px;
+    background-color: rgb(161, 209, 193);
+    margin: 5px;
+    border-radius: 20px;
+}
+
+add-listcard > .titleText{
+    display: block;
+    border: 0ch;
+    background-color: transparent;
+}
+
+add-listcard > .addButton{
+    border: 0ch;
+}
