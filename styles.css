@@ -2,7 +2,7 @@
     display: none;
 }
 
-.removeButton {
+#removeButton {
     background-color: rgba(169, 209, 198, 0.997);
     border: 0ch;
     border-radius: 3px;
@@ -16,12 +16,12 @@ add-listcard {
     border-radius: 20px;
 }
 
-add-listcard > .titleText{
+add-listcard > #titleText{
     display: block;
     border: 0ch;
     background-color: transparent;
 }
 
-add-listcard > .addButton{
+add-listcard > #addButton{
     border: 0ch;
 }
