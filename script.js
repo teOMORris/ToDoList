@@ -18,7 +18,7 @@ var index = 0;
         //shadowRoot is used to that code to be visible just in 
         //this.shadowRoot.innerHTML = `...`
         this.innerHTML = `
-            <input type="text" placeholder="Enter title" id="titleTextAdd">
+            <input type="text" placeholder="Enter title" id="titleTextAdd" required>
             <button id="addButton">ADD</button>
             <button id="removeButton">X</button>
         `;
@@ -28,7 +28,7 @@ var index = 0;
     class TaskCard extends HTMLElement {
         connectedCallback() {
           this.innerHTML = ` <input id="titleTask" type="text" placeholder="Title" value=" ">
-          <button id="addButton">+ Add task</button>`;
+          <button id="addTaskButton">+ Add task</button>`;
         }
     } 
    window.customElements.define('add-listcard', AddListCard);
@@ -62,14 +62,19 @@ addListButton.addEventListener("click", function() {
       {
         addButton.addEventListener("click", function()
         {
-          const title = document.getElementById("titleTextAdd");
-          const taskCard = document.createElement('task-card');
-          document.getElementById("listOfTasks").appendChild(taskCard);
-          const titleTask = document.getElementById("titleTask");
-          titleTask.setAttribute("id",index);
-          index++;
-          titleTask.value = title.value;
-          DeleteCard(element);
+            const title = document.getElementById("titleTextAdd");
+            if(title.value !== "") {
+              const taskCard = document.createElement('task-card');
+              document.getElementById("listOfTasks").appendChild(taskCard);
+              const titleTask = document.getElementById("titleTask");
+              const addTaskButton = document.getElementById("addTaskButton");
+              titleTask.setAttribute("id",index);
+              taskCard.setAttribute("id",index);
+              addTaskButton.setAttribute("id",index);
+              index++;
+              titleTask.value = title.value;
+              DeleteCard(element);
+        }
         })
       }
       if(removeButton)

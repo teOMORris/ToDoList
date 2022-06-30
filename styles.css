@@ -1,3 +1,7 @@
+body{
+    background-color: black;
+}
+
 #removeButton {
     background-color: rgba(169, 209, 198, 0.997);
     border: 0ch;
