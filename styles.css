@@ -8,6 +8,10 @@ body{
     border-radius: 3px;
 }
 
+#listOfTasks {
+    display: inline;
+}
+
 add-listcard {
     display: inline-block;
     padding: 15px;
@@ -18,4 +22,13 @@ add-listcard {
 
 add-listcard > #addButton{
     border: 0ch;
+}
+
+task-card {
+    display: inline-block;
+    margin: 2px;
+}
+
+#taskList button {
+    display: inline-block;
 }
