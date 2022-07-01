@@ -27,8 +27,11 @@ var index = 0;
 
     class TaskCard extends HTMLElement {
         connectedCallback() {
-          this.innerHTML = ` <input id="titleTask" type="text" placeholder="Title" value=" ">
-          <button id="addTaskButton">+ Add task</button>`;
+          this.innerHTML = ` 
+          <input id="titleTask" type="text" placeholder="Title" value=" ">
+          <button id="addTaskButton" class="addButton">+ Add task</button>
+          <div id="taskList"></div>
+          `;
         }
     } 
    window.customElements.define('add-listcard', AddListCard);
@@ -36,11 +39,20 @@ var index = 0;
   })();
 
 //Delete card of "Add list"
-function DeleteCard( element)
+function DeleteCard(element)
 {
     const parent = document.getElementById("addListCard");
     parent.removeChild(element);
     canAddList = true;
+}
+
+//Set id for elemements of taskCard
+function SetId(index)
+{
+    const titleTask = document.getElementById("titleTask");
+    const addTaskButton = document.getElementById("addTaskButton");
+    titleTask.setAttribute("id",index);
+    addTaskButton.setAttribute("id",index);
 }
 
 //Execute this code when Add List button is pressed
@@ -62,19 +74,40 @@ addListButton.addEventListener("click", function() {
       {
         addButton.addEventListener("click", function()
         {
+            //Get title of AddListCard
             const title = document.getElementById("titleTextAdd");
+
+            //Do something only we have text in title input 
             if(title.value !== "") {
+
+              //Create taskCard
               const taskCard = document.createElement('task-card');
               document.getElementById("listOfTasks").appendChild(taskCard);
-              const titleTask = document.getElementById("titleTask");
-              const addTaskButton = document.getElementById("addTaskButton");
-              titleTask.setAttribute("id",index);
               taskCard.setAttribute("id",index);
-              addTaskButton.setAttribute("id",index);
-              index++;
+
+              //Set title of task card with the value of inputText from AddListCard
+              const titleTask = document.getElementById("titleTask");
               titleTask.value = title.value;
+
+               //Set ids for elements of taksCard
+               SetId(index);
+               index++;
+
+              //Remove addListCard
               DeleteCard(element);
-        }
+
+              //Get all addTaskButtons with classname = addButton
+              const addTB = document.getElementsByClassName("addButton");
+
+              //Cross thrown all buttons and verify if any is click
+              for(let i = 0; i < addTB.length; i++) {
+                addTB[i].addEventListener("click",function()
+                {
+                    console.log(addTB[i].id);
+                })
+              }
+            }
+
         })
       }
       if(removeButton)
