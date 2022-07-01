@@ -55,6 +55,15 @@ function SetId(index)
     addTaskButton.setAttribute("id",index);
 }
 
+function AddTask(index)
+{
+    const task = document.createElement("button");
+    //task.setAttribute("id","Task" + i);
+    task.textContent = "Task";
+    const taskCard = document.getElementById(index);
+    const taskListEl = taskCard.getElementsByTagName("div")[0];
+    taskListEl.appendChild(task);
+}
 //Execute this code when Add List button is pressed
 addListButton.addEventListener("click", function() {
     //if we don't have none card displyed, we can add card
@@ -101,17 +110,9 @@ addListButton.addEventListener("click", function() {
 
               //Cross thrown all buttons and verify if any is click
               for(let i = 0; i < addTB.length; i++) {
-                addTB[i].addEventListener("click",function()
-                {
-                    console.log(i);
-                    const task = document.createElement("button");
-                    //task.setAttribute("id","Task" + i);
-                    task.textContent = "Task";
-                    const taskCard = document.getElementById(i);
-                    const taskListEl = taskCard.getElementsByTagName("div")[0];
-                    taskListEl.appendChild(task);
-                })
-                
+                addTB[i].onclick = function() {
+                  AddTask(i);
+                } 
               }
             }
 
@@ -126,6 +127,7 @@ addListButton.addEventListener("click", function() {
       }
   }
 })
+
 
 
 
