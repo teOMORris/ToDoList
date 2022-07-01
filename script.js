@@ -30,7 +30,7 @@ var index = 0;
           this.innerHTML = ` 
           <input id="titleTask" type="text" placeholder="Title" value=" ">
           <button id="addTaskButton" class="addButton">+ Add task</button>
-          <div id="taskList"></div>
+          <div id="taskList0"></div>
           `;
         }
     } 
@@ -103,8 +103,15 @@ addListButton.addEventListener("click", function() {
               for(let i = 0; i < addTB.length; i++) {
                 addTB[i].addEventListener("click",function()
                 {
-                    console.log(addTB[i].id);
+                    console.log(i);
+                    const task = document.createElement("button");
+                    //task.setAttribute("id","Task" + i);
+                    task.textContent = "Task";
+                    const taskCard = document.getElementById(i);
+                    const taskListEl = taskCard.getElementsByTagName("div")[0];
+                    taskListEl.appendChild(task);
                 })
+                
               }
             }
 

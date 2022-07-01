@@ -28,3 +28,7 @@ task-card {
     display: inline-block;
     margin: 2px;
 }
+
+#taskList button {
+    display: inline-block;
+}
