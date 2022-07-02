@@ -28,8 +28,10 @@ var index = 0;
     class ListOfTasks extends HTMLElement {
         connectedCallback() {
           this.innerHTML = ` 
-          <input id="titleTask" type="text" placeholder="Title" value=" ">
-          <button id="addTaskButton" class="addButton">+ Add task</button>
+          <header>
+            <input id="titleTask" type="text" placeholder="Title" value=" ">
+            <button id="addTaskButton" class="addButton">+ Add task</button>
+          </header>
           <div id="taskList"></div>
           `;
         }
@@ -62,6 +64,8 @@ function SetId(index)
 {
     const titleTask = document.getElementById("titleTask");
     const addTaskButton = document.getElementById("addTaskButton");
+    const header = document.querySelector("header");
+    header.setAttribute("id",index);
     titleTask.setAttribute("id",index);
     addTaskButton.setAttribute("id",index);
 }
@@ -71,8 +75,9 @@ function AddTask(index)
     const task = document.createElement("task-card");
     //task.setAttribute("id","Task" + i);
     task.textContent = "Task";
-    const listOfTask = document.getElementById(index);
-    const taskListEl = listOfTask.getElementsByTagName("div")[0];
+    const listOfTask = document.querySelectorAll("list-task")[index];
+    const taskListEl = listOfTask.querySelector("div");
+    console.log(taskListEl);
     taskListEl.appendChild(task);
 }
 //Execute this code when Add List button is pressed
@@ -118,6 +123,7 @@ addListButton.addEventListener("click", function() {
 
               //Get all addTaskButtons with classname = addButton
               const addTB = document.getElementsByClassName("addButton");
+              console.log(addTB);
 
               //Cross thrown all buttons and verify if any is click
               for(let i = 0; i < addTB.length; i++) {
