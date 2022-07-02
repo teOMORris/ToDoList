@@ -1,6 +1,7 @@
 const addListButton = document.getElementById("addList");
 var canAddList = true;
 var index = 0;
+var indexTask = 0;
 
 //Here is a function which invoke herself
 (function() {
@@ -70,14 +71,14 @@ function SetId(index)
     addTaskButton.setAttribute("id",index);
 }
 
-function AddTask(index)
+function AddTask(index, indexTask)
 {
     const task = document.createElement("task-card");
     //task.setAttribute("id","Task" + i);
     task.textContent = "Task";
     const listOfTask = document.querySelectorAll("list-task")[index];
     const taskListEl = listOfTask.querySelector("div");
-    console.log(taskListEl);
+    task.setAttribute("id",indexTask)
     taskListEl.appendChild(task);
 }
 //Execute this code when Add List button is pressed
@@ -128,7 +129,18 @@ addListButton.addEventListener("click", function() {
               //Cross thrown all buttons and verify if any is click
               for(let i = 0; i < addTB.length; i++) {
                 addTB[i].onclick = function() {
-                  AddTask(i);
+                  //Verify if exist tasks in list and if doesn't exist add task and set id = 0
+                  if(!document.querySelectorAll("list-task")[i].querySelector("task-card"))
+                  {
+                    AddTask(i,0);
+                  }
+                  else{
+                    //If already exist tasks, get the id of the last task from list
+                    //and add for the nest task previous id + 1
+                    const listsTask = document.querySelectorAll("list-task");
+                    const cardsTask = listsTask[i].querySelectorAll("task-card");
+                    AddTask(i, parseInt(cardsTask[cardsTask.length - 1].id) + 1);
+                  }
                 } 
               }
             }
