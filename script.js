@@ -25,17 +25,28 @@ var index = 0;
       }
     }
 
-    class TaskCard extends HTMLElement {
+    class ListOfTasks extends HTMLElement {
         connectedCallback() {
           this.innerHTML = ` 
           <input id="titleTask" type="text" placeholder="Title" value=" ">
           <button id="addTaskButton" class="addButton">+ Add task</button>
-          <div id="taskList0"></div>
+          <div id="taskList"></div>
           `;
         }
-    } 
-   window.customElements.define('add-listcard', AddListCard);
-   window.customElements.define('task-card',TaskCard);
+    }
+
+    class TaskCard extends HTMLElement {
+      connectedCallback(){
+        this.innerHTML = `
+          <button>Task</button>
+          <button>Complete</button>
+          <button>Remove</button>
+        `;
+      }
+    }
+    window.customElements.define('task-card',TaskCard);
+    window.customElements.define('add-listcard', AddListCard);
+    window.customElements.define('list-task',ListOfTasks);
   })();
 
 //Delete card of "Add list"
@@ -46,7 +57,7 @@ function DeleteCard(element)
     canAddList = true;
 }
 
-//Set id for elemements of taskCard
+//Set id for elemements of listOfTask
 function SetId(index)
 {
     const titleTask = document.getElementById("titleTask");
@@ -57,11 +68,11 @@ function SetId(index)
 
 function AddTask(index)
 {
-    const task = document.createElement("button");
+    const task = document.createElement("task-card");
     //task.setAttribute("id","Task" + i);
     task.textContent = "Task";
-    const taskCard = document.getElementById(index);
-    const taskListEl = taskCard.getElementsByTagName("div")[0];
+    const listOfTask = document.getElementById(index);
+    const taskListEl = listOfTask.getElementsByTagName("div")[0];
     taskListEl.appendChild(task);
 }
 //Execute this code when Add List button is pressed
@@ -89,10 +100,10 @@ addListButton.addEventListener("click", function() {
             //Do something only we have text in title input 
             if(title.value !== "") {
 
-              //Create taskCard
-              const taskCard = document.createElement('task-card');
-              document.getElementById("listOfTasks").appendChild(taskCard);
-              taskCard.setAttribute("id",index);
+              //Create listOfTask
+              const listOfTask = document.createElement('list-task');
+              document.getElementById("listOfTasks").appendChild(listOfTask);
+              listOfTask.setAttribute("id",index);
 
               //Set title of task card with the value of inputText from AddListCard
               const titleTask = document.getElementById("titleTask");
@@ -115,7 +126,6 @@ addListButton.addEventListener("click", function() {
                 } 
               }
             }
-
         })
       }
       if(removeButton)
