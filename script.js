@@ -1,7 +1,5 @@
 const addListButton = document.getElementById("addList");
 var canAddList = true;
-var index = 0;
-var indexTask = 0;
 
 //Here is a function which invoke herself
 (function() {
@@ -30,20 +28,21 @@ var indexTask = 0;
         connectedCallback() {
           this.innerHTML = ` 
           <header>
-            <input id="titleTask" type="text" placeholder="Title" value=" ">
-            <button id="addTaskButton" class="addButton">+ Add task</button>
-          </header>
+            <input id="titleTask" class="title" type="text" placeholder="Title" value=" ">
+            <button onclick="AddTask(this)" id="addTaskButton" class="addButton">+ Add task</button>
+            <button onclick="RemoveList(this)">Remove List</button>
+            </header>
           <div id="taskList"></div>
           `;
         }
-    }
-
+        //
+      }
     class TaskCard extends HTMLElement {
       connectedCallback(){
         this.innerHTML = `
           <button>Task</button>
           <button>Complete</button>
-          <button>Remove</button>
+          <button onclick="this.parentNode.remove()">Remove</button>
         `;
       }
     }
@@ -61,26 +60,19 @@ function DeleteCard(element)
 }
 
 //Set id for elemements of listOfTask
-function SetId(index)
+function SetId()
 {
+    const listTask = document.querySelectorAll("list-task");
     const titleTask = document.getElementById("titleTask");
     const addTaskButton = document.getElementById("addTaskButton");
-    const header = document.querySelector("header");
-    header.setAttribute("id",index);
-    titleTask.setAttribute("id",index);
-    addTaskButton.setAttribute("id",index);
+    const header = document.querySelectorAll("header")[listTask.length - 1];
+    if(header) {
+      header.setAttribute("id",listTask.length - 1);
+      titleTask.setAttribute("id",listTask.length - 1);
+      addTaskButton.setAttribute("id",listTask.length - 1);
+    }
 }
 
-function AddTask(index, indexTask)
-{
-    const task = document.createElement("task-card");
-    //task.setAttribute("id","Task" + i);
-    task.textContent = "Task";
-    const listOfTask = document.querySelectorAll("list-task")[index];
-    const taskListEl = listOfTask.querySelector("div");
-    task.setAttribute("id",indexTask)
-    taskListEl.appendChild(task);
-}
 //Execute this code when Add List button is pressed
 addListButton.addEventListener("click", function() {
     //if we don't have none card displyed, we can add card
@@ -98,7 +90,7 @@ addListButton.addEventListener("click", function() {
 
       if(addButton)
       {
-        addButton.addEventListener("click", function()
+        addButton.onclick = function()
         {
             //Get title of AddListCard
             const title = document.getElementById("titleTextAdd");
@@ -109,42 +101,23 @@ addListButton.addEventListener("click", function() {
               //Create listOfTask
               const listOfTask = document.createElement('list-task');
               document.getElementById("listOfTasks").appendChild(listOfTask);
-              listOfTask.setAttribute("id",index);
+              if(!document.querySelectorAll("list-task"))
+                  listOfTask.setAttribute("id",0);
+              else{
+                  listOfTask.setAttribute("id",document.querySelectorAll("list-task").length - 1);
+              }
 
               //Set title of task card with the value of inputText from AddListCard
               const titleTask = document.getElementById("titleTask");
               titleTask.value = title.value;
 
                //Set ids for elements of taksCard
-               SetId(index);
-               index++;
+               SetId();
 
               //Remove addListCard
               DeleteCard(element);
-
-              //Get all addTaskButtons with classname = addButton
-              const addTB = document.getElementsByClassName("addButton");
-              console.log(addTB);
-
-              //Cross thrown all buttons and verify if any is click
-              for(let i = 0; i < addTB.length; i++) {
-                addTB[i].onclick = function() {
-                  //Verify if exist tasks in list and if doesn't exist add task and set id = 0
-                  if(!document.querySelectorAll("list-task")[i].querySelector("task-card"))
-                  {
-                    AddTask(i,0);
-                  }
-                  else{
-                    //If already exist tasks, get the id of the last task from list
-                    //and add for the nest task previous id + 1
-                    const listsTask = document.querySelectorAll("list-task");
-                    const cardsTask = listsTask[i].querySelectorAll("task-card");
-                    AddTask(i, parseInt(cardsTask[cardsTask.length - 1].id) + 1);
-                  }
-                } 
-              }
             }
-        })
+        }
       }
       if(removeButton)
       {
