@@ -4,17 +4,14 @@ const mainListTasks = document.getElementById("listOfTasks");
 
 function LoadContent()
 {
-    for(let i = 0; i < localStorage.length; i++)
-    {
-        const listOfTask = document.createElement('list-task');
-        mainListTasks.appendChild(listOfTask);
-        if(!document.querySelectorAll("list-task"))
-            listOfTask.setAttribute("id",0);
-        else{
-            listOfTask.setAttribute("id",document.querySelectorAll("list-task").length - 1);
-        }
-        listOfTask.innerHTML = localStorage.getItem(i);
-    }
+      var keys = Object.keys(localStorage).sort();
+      for(let i = 0; i < keys.length; i++)
+      {
+          const listOfTask = document.createElement('list-task');
+          mainListTasks.appendChild(listOfTask);
+          listOfTask.setAttribute("id",keys[i]);
+          listOfTask.innerHTML = localStorage.getItem(keys[i]);
+      }
 }
 
 //Here is a function which invoke herself

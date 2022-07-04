@@ -59,12 +59,12 @@
           {
             listsTask[i].id = parseInt(listsTask[i].id) - 1;
           }
-          listsTask[button.parentNode.id].remove();
+          listsTask[parseInt(button.parentNode.id)].remove();
           for(let i = parseInt(button.parentNode.id); i < listsTask.length; i++)
           {
             SetId(i);
-            const item = localStorage.getItem(i + 1);
           }
+          localStorage.removeItem(parseInt(button.parentNode.id));
         }
     </script>
 </body>
