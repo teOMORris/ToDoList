@@ -1,5 +1,21 @@
 const addListButton = document.getElementById("addList");
 var canAddList = true;
+const mainListTasks = document.getElementById("listOfTasks");
+
+function LoadContent()
+{
+    for(let i = 0; i < localStorage.length; i++)
+    {
+        const listOfTask = document.createElement('list-task');
+        mainListTasks.appendChild(listOfTask);
+        if(!document.querySelectorAll("list-task"))
+            listOfTask.setAttribute("id",0);
+        else{
+            listOfTask.setAttribute("id",document.querySelectorAll("list-task").length - 1);
+        }
+        listOfTask.innerHTML = localStorage.getItem(i);
+    }
+}
 
 //Here is a function which invoke herself
 (function() {
@@ -40,15 +56,17 @@ var canAddList = true;
     class TaskCard extends HTMLElement {
       connectedCallback(){
         this.innerHTML = `
-          <button>Task</button>
+          <input type="text" placeholder="Write task">
           <button>Complete</button>
-          <button onclick="this.parentNode.remove()">Remove</button>
+          <button onclick="RemoveTask(this)">Remove</button>
         `;
       }
     }
     window.customElements.define('task-card',TaskCard);
     window.customElements.define('add-listcard', AddListCard);
     window.customElements.define('list-task',ListOfTasks);
+
+    LoadContent();
   })();
 
 //Delete card of "Add list"
@@ -74,7 +92,7 @@ function SetId()
 }
 
 //Execute this code when Add List button is pressed
-addListButton.addEventListener("click", function() {
+addListButton.onclick = function() {
     //if we don't have none card displyed, we can add card
     if(canAddList) {
       //We are creating the custom element
@@ -100,7 +118,7 @@ addListButton.addEventListener("click", function() {
 
               //Create listOfTask
               const listOfTask = document.createElement('list-task');
-              document.getElementById("listOfTasks").appendChild(listOfTask);
+              mainListTasks.appendChild(listOfTask);
               if(!document.querySelectorAll("list-task"))
                   listOfTask.setAttribute("id",0);
               else{
@@ -109,14 +127,16 @@ addListButton.addEventListener("click", function() {
 
               //Set title of task card with the value of inputText from AddListCard
               const titleTask = document.getElementById("titleTask");
-              titleTask.value = title.value;
-
-               //Set ids for elements of taksCard
+              titleTask.setAttribute("value",title.value);
+               
+              //Set ids for elements of taksCard
                SetId();
+               localStorage.setItem(listOfTask.id,listOfTask.innerHTML);
 
               //Remove addListCard
               DeleteCard(element);
             }
+            
         }
       }
       if(removeButton)
@@ -127,7 +147,7 @@ addListButton.addEventListener("click", function() {
         })
       }
   }
-})
+}
 
 
 
