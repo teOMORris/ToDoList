@@ -4,13 +4,30 @@ const mainListTasks = document.getElementById("listOfTasks");
 
 function LoadContent()
 {
+      //get all keys from localStorage and sort them because the keys aren't sorted
       var keys = Object.keys(localStorage).sort();
       for(let i = 0; i < keys.length; i++)
       {
-          const listOfTask = document.createElement('list-task');
-          mainListTasks.appendChild(listOfTask);
-          listOfTask.setAttribute("id",keys[i]);
-          listOfTask.innerHTML = localStorage.getItem(keys[i]);
+            //create a list
+            const listOfTask = document.createElement("list-task");
+            mainListTasks.append(listOfTask);
+            listOfTask.setAttribute("id",i);
+
+            //Fill the list with content from localStorage which have keys[i] key
+            listOfTask.innerHTML = localStorage.getItem(keys[i]);
+            
+            //Change id's of content of list
+            const titleTask = document.getElementsByClassName("title")[i];
+            const addTaskButton = document.getElementsByClassName("addButton")[i];
+            const header = document.querySelectorAll("header")[i];
+            if(header) {
+              header.setAttribute("id",i);
+              titleTask.setAttribute("id",i);
+              addTaskButton.setAttribute("id",i);
+            }
+          
+          //Place the concent changed in localStorage
+          localStorage.setItem(i,listOfTask.innerHTML);
       }
 }
 
