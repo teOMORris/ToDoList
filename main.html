@@ -18,11 +18,6 @@
     <script>
         const mainListTasks = document.getElementById("listOfTasks");
 
-        function UpdateTitle()
-        {
-            this.value = this.textContent; 
-        }
-
         function AddTask(button)
         {
             const task = document.createElement("task-card");
@@ -59,12 +54,22 @@
           {
             listsTask[i].id = parseInt(listsTask[i].id) - 1;
           }
-          listsTask[button.parentNode.id].remove();
+          listsTask[parseInt(button.parentNode.id)].remove();
           for(let i = parseInt(button.parentNode.id); i < listsTask.length; i++)
           {
             SetId(i);
-            const item = localStorage.getItem(i + 1);
           }
+          localStorage.removeItem(parseInt(button.parentNode.id));
+          var keys = Object.keys(localStorage).sort();
+          for(let i = 0; i < keys.length ; i++)
+          {
+              if(keys[i] !== i) {
+                const data = localStorage.getItem(keys[i]);
+                localStorage.removeItem(keys[i]);
+                localStorage.setItem(i,data);
+              }
+          }
+         
         }
     </script>
 </body>
