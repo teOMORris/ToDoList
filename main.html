@@ -18,6 +18,13 @@
     <script>
         const mainListTasks = document.getElementById("listOfTasks");
 
+        function UpdateValue(input)
+        {
+            input.setAttribute("value", input.value);
+            const listOfTask = document.querySelectorAll("list-task")[input.id];
+            localStorage.setItem(input.id,listOfTask.innerHTML);
+        }
+
         function AddTask(button)
         {
             const task = document.createElement("task-card");
@@ -26,14 +33,17 @@
             const listOfTask = document.querySelectorAll("list-task")[parseInt(button.id)];
             const taskListEl = listOfTask.querySelector("div");
             taskListEl.appendChild(task);
+            task.className = parseInt(button.id);
             localStorage.setItem(parseInt(button.id),listOfTask.innerHTML);
           }
 
-        function RemoveTask(button)
+          function RemoveTask(button)
         {
-            localStorage.setItem(parseInt(button.parentNode.id),listOfTask.innerHTML);
-            button.parentNode.remove(); 
+            button.parentNode.remove();
+            const listOfTask = document.querySelectorAll("list-task")[button.parentNode.className];
+            localStorage.setItem(button.parentNode.className, listOfTask.innerHTML);
         }
+
 
         function SetId(index)
         {
@@ -49,16 +59,20 @@
         }
 
         function RemoveList(button) {
-        const listsTask = document.querySelectorAll("list-task");
+            const listsTask = document.querySelectorAll("list-task");
+          
+
           for(let i = parseInt(button.parentNode.id) + 1; i < listsTask.length; i++)
           {
             listsTask[i].id = parseInt(listsTask[i].id) - 1;
           }
+
           listsTask[parseInt(button.parentNode.id)].remove();
           for(let i = parseInt(button.parentNode.id); i < listsTask.length; i++)
           {
             SetId(i);
           }
+
           localStorage.removeItem(parseInt(button.parentNode.id));
           var keys = Object.keys(localStorage).sort();
           for(let i = 0; i < keys.length ; i++)
