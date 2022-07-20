@@ -26,8 +26,6 @@ function LoadContent()
               titleTask.setAttribute("id",i);
               addTaskButton.setAttribute("id",i);
             }
-            
-            
           
           //Place the content changed in localStorage
           localStorage.setItem(i,listOfTask.innerHTML);
