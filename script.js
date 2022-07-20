@@ -2,6 +2,7 @@ const addListButton = document.getElementById("addList");
 var canAddList = true;
 const mainListTasks = document.getElementById("listOfTasks");
 
+
 function LoadContent()
 {
       //get all keys from localStorage and sort them because the keys aren't sorted
@@ -26,9 +27,11 @@ function LoadContent()
               addTaskButton.setAttribute("id",i);
             }
           
-          //Place the concent changed in localStorage
+          //Place the content changed in localStorage
           localStorage.setItem(i,listOfTask.innerHTML);
       }
+
+     
 }
 
 //Here is a function which invoke herself
@@ -58,7 +61,7 @@ function LoadContent()
         connectedCallback() {
           this.innerHTML = ` 
           <header>
-            <input id="titleTask" class="title" type="text" placeholder="Title" value=" ">
+            <input onchange="UpdateValue(this)" id="titleTask" class="title" type="text" placeholder="Title" value=" ">
             <button onclick="AddTask(this)" id="addTaskButton" class="addButton">+ Add task</button>
             <button onclick="RemoveList(this)">Remove List</button>
             </header>

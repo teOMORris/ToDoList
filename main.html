@@ -18,6 +18,13 @@
     <script>
         const mainListTasks = document.getElementById("listOfTasks");
 
+        function UpdateValue(input)
+        {
+            input.setAttribute("value", input.value);
+            const listOfTask = document.querySelectorAll("list-task")[input.id];
+            localStorage.setItem(input.id,listOfTask.innerHTML);
+        }
+
         function AddTask(button)
         {
             const task = document.createElement("task-card");
@@ -25,15 +32,20 @@
             task.textContent = "Task";
             const listOfTask = document.querySelectorAll("list-task")[parseInt(button.id)];
             const taskListEl = listOfTask.querySelector("div");
+            console.log(taskListEl);
             taskListEl.appendChild(task);
+            task.className = parseInt(button.id);
             localStorage.setItem(parseInt(button.id),listOfTask.innerHTML);
           }
 
-        function RemoveTask(button)
+          function RemoveTask(button)
         {
-            localStorage.setItem(parseInt(button.parentNode.id),listOfTask.innerHTML);
-            button.parentNode.remove(); 
+            button.parentNode.remove();
+            const listOfTask = document.querySelectorAll("list-task")[button.parentNode.className];
+            console.log(button.parentNode.className);
+            localStorage.setItem(button.parentNode.className, listOfTask.innerHTML);
         }
+
 
         function SetId(index)
         {
@@ -41,26 +53,54 @@
             const titleTask = document.getElementsByClassName("title")[index];
             const addTaskButton = document.getElementsByClassName("addButton")[index];
             const header = document.querySelectorAll("header")[index];
+            const listOfTask = document.querySelectorAll("list-task")[index];
+            if(listOfTask)
+            {
+                const taskList = listOfTask.children[1];
+                const childOfTaskList = taskList.querySelectorAll("task-card");
+                for(let i = 0 ; i < childOfTaskList.length; i++)
+                {
+                  childOfTaskList[i].className = index;
+                }
+            }
+           
             if(header) {
-            header.setAttribute("id",index);
-            titleTask.setAttribute("id",index);
-            addTaskButton.setAttribute("id",index);
+
+              header.setAttribute("id",index);
+              titleTask.setAttribute("id",index);
+              addTaskButton.setAttribute("id",index);
+
+              
             }
         }
 
         function RemoveList(button) {
-        const listsTask = document.querySelectorAll("list-task");
+          const listsTask = document.querySelectorAll("list-task");
+          const idButton = button.parentNode.id;
+          
           for(let i = parseInt(button.parentNode.id) + 1; i < listsTask.length; i++)
           {
             listsTask[i].id = parseInt(listsTask[i].id) - 1;
           }
+
           listsTask[parseInt(button.parentNode.id)].remove();
+          
+          const taskCards = document.getElementsByClassName(idButton + 1);
+          console.log(taskCards.length);
+          for(let index = 0 ; index < taskCards.length; index++) {
+           
+            console.log(index);
+            taskCards[index].className = idButton;
+          }
+
           for(let i = parseInt(button.parentNode.id); i < listsTask.length; i++)
           {
             SetId(i);
           }
+
           localStorage.removeItem(parseInt(button.parentNode.id));
           var keys = Object.keys(localStorage).sort();
+
           for(let i = 0; i < keys.length ; i++)
           {
               if(keys[i] !== i) {
@@ -69,7 +109,6 @@
                 localStorage.setItem(i,data);
               }
           }
-         
         }
     </script>
 </body>
